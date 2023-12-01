@@ -1,2 +1,2 @@
 # AoC-2023
-Solutions of Advent of Code of 2023
+My solutions for the Advent of Code 2023
