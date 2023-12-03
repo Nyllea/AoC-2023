@@ -6,12 +6,14 @@ lines = f.read().splitlines()
 vert_size = len(lines)
 
 sum = 0
-visited_number_start = []
+visited_number_start = [] # A list of the coordinates of the beginning of all the numbers already taken into account (to avoid duplicates)
 for i in range(vert_size):
     horiz_size = len(lines[i])
     for j in range(horiz_size):
         char = lines[i][j]
+
         if char != '.' and not char.isdigit():
+            # If the character is a symbol, we look at all the characters around it
             for vert_offset in [-1, 0, 1]:
                 for horiz_offset in [-1, 0, 1]:
                     new_i = i + vert_offset
@@ -20,8 +22,11 @@ for i in range(vert_size):
                     if new_i < vert_size and new_j < horiz_size:
                         valid_char = lines[new_i][new_j]
 
+                        # If the character around the symbol at (i,j) is a digit
                         if valid_char.isdigit():
                             full_number = ''
+
+                            # Look for the beginning of the number and add the digits to full_number as we find them
                             number_index = new_j
                             current_char = valid_char
                             while current_char.isdigit():
@@ -32,12 +37,14 @@ for i in range(vert_size):
                                     break
                                 current_char = lines[new_i][number_index]
                             
+                            # Check if that number has already been seen before and if not, add it to visited_number_start
                             number_start_coord = (number_index + 1, new_i)
                             if number_start_coord in visited_number_start:
                                 break
                             else:
                                 visited_number_start += [number_start_coord]
 
+                            # Look for the end of the number and add the digits to full_number as we find them
                             number_index = new_j + 1
                             if number_index < horiz_size:
                                 current_char = lines[new_i][number_index]
@@ -50,12 +57,6 @@ for i in range(vert_size):
                                     current_char = lines[new_i][number_index]
 
                             full_number = int(full_number)
-
                             sum += full_number
 
-                            #print(full_number)
-
-                            
-                    
-#print(visited_number_start)
 print(sum)
