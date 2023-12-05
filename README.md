@@ -27,7 +27,7 @@ By default, this value is set to the input of the file `input.txt` of the corres
 Once the variable `input_file_path` is set, launch the corresponding python file
 
 ```bash
-python DayX\ProblemN.py
+python DayX/ProblemN.py
 ```
 
 with X the day wanted, and N = 1 or 2 the problem to solve.
