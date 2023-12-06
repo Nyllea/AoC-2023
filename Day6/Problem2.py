@@ -1,5 +1,4 @@
 from math import ceil, floor, sqrt
-import re
 
 input_file_path = "Day6/input.txt"
 
@@ -10,8 +9,8 @@ total_time = lines[0].split(":")[1] # Total time of the race
 best_distance = lines[1].split(":")[1] # Maximum distance travelled by the other boats
 
 # Remove the spaces from the time and distance
-total_time = re.sub(" ", "", total_time)
-best_distance = re.sub(" ", "", best_distance)
+total_time = total_time.replace(" ", "")
+best_distance = best_distance.replace(" ", "")
 
 total_time = int(total_time)
 best_distance = int(best_distance)
