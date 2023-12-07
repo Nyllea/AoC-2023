@@ -1,6 +1,6 @@
 input_file_path = "Day7/input.txt"
 
-card_dict = {"A":14, 'K':13, 'Q':12, 'J':11, 'T':10, 'J':1}
+card_dict = {"A":14, 'K':13, 'Q':12, 'T':10, 'J':1}
 
 # A class representing a card, allowing to compare them (operators < and !=)
 class Card:
