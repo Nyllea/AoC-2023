@@ -1,5 +1,3 @@
-import numpy as np
-
 input_file_path = "Day11/input.txt"
 
 galaxy_symbol = '#'
@@ -23,7 +21,7 @@ for line in lines:
     current_column = 0
     for char in line:
         if char == galaxy_symbol:
-            galaxies += [np.array([current_row, current_column])]
+            galaxies += [(current_row, current_column)]
 
             columns_expanded = [col for col in columns_expanded if col != current_column]
             rows_expanded = [row for row in rows_expanded if row != current_row]
@@ -41,8 +39,9 @@ for galaxy_id in range(nbr_galaxies):
     # For each galaxy, we look at all the galaxies with a lower index (to avoid repeating pairs)
     for other_galaxy in galaxies[galaxy_id + 1:]:
         # We can then calculate the distance between these galaxies
-        distance_vector = other_galaxy - current_galaxy
-        distance = abs(distance_vector[0]) + abs(distance_vector[1])
+        distance_rows = other_galaxy[0] - current_galaxy[0]
+        distance_col = other_galaxy[1] - current_galaxy[1]
+        distance = abs(distance_rows) + abs(distance_col)
 
         # Finally, for each expanded rows and columns the shortest path passes through, we add one to the distance
         for expanded_row_id in rows_expanded:
