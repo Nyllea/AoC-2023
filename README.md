@@ -16,7 +16,7 @@ _Note: Some folder (like Day8) may contain more than one test file_
 
 ## Output
 
-Each python file prints only one value which is the solution to the problem of the day
+The last value printed by the python file is the solution to the problem of the day
 
 ## How to use
 
