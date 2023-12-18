@@ -206,7 +206,7 @@ def nbr_possibilities(spring_line_str, nbr_damaged_springs):
 #   - nbr_damaged_springs:  A list of int representing the number of damaged springs in simplified_spring_line, 
 #       in order from left to right
 #   - multiple_elements_dict: dictionnary used for memoization, retaining the already calculated possibilities
-def multiply_line_possibilities(spring_line, nbr_damaged_springs, multiple_elements_dict={}):
+def memoized_nbr_possibilities(spring_line, nbr_damaged_springs, multiple_elements_dict={}):
     # Determine the current key for the memoization
     spring_tuple = tuple(spring_line)
     damaged_tuple = tuple(nbr_damaged_springs)
@@ -250,10 +250,10 @@ def multiply_line_possibilities(spring_line, nbr_damaged_springs, multiple_eleme
 
                 # We cut spring_line in 2 at that position and make a recursive call on the two possibilities: ?=. and ?=#
                 hash_string = spring_line[0][:id_first_interrogation] + '#' + spring_line[0][id_first_interrogation+1:]
-                hash_possibilities = multiply_line_possibilities([hash_string], nbr_damaged_springs, multiple_elements_dict)
+                hash_possibilities = memoized_nbr_possibilities([hash_string], nbr_damaged_springs, multiple_elements_dict)
 
                 dot_line = [spring_line[0][:id_first_interrogation], spring_line[0][id_first_interrogation+1:]]
-                dot_possibilities = multiply_line_possibilities(dot_line, nbr_damaged_springs, multiple_elements_dict)
+                dot_possibilities = memoized_nbr_possibilities(dot_line, nbr_damaged_springs, multiple_elements_dict)
 
                 possibilities = hash_possibilities + dot_possibilities
 
@@ -276,12 +276,12 @@ def multiply_line_possibilities(spring_line, nbr_damaged_springs, multiple_eleme
 
             for i in range(damaged_len + 1):
                 # Calculate nbr_of_possibilities(first(S/2),first(i))
-                left_possibility_i = multiply_line_possibilities(spring_line[:middle_index], nbr_damaged_springs[:i], multiple_elements_dict)
+                left_possibility_i = memoized_nbr_possibilities(spring_line[:middle_index], nbr_damaged_springs[:i], multiple_elements_dict)
 
                 # This test is to avoid a useless recursive call
                 if left_possibility_i != 0:
                     # Calculate nbr_of_possibilities(last(S/2),last(L-i)) and add the product to the total number of possibilities
-                    right_possibility_i = multiply_line_possibilities(spring_line[middle_index:], nbr_damaged_springs[i:], multiple_elements_dict)
+                    right_possibility_i = memoized_nbr_possibilities(spring_line[middle_index:], nbr_damaged_springs[i:], multiple_elements_dict)
                     possibilities += left_possibility_i*right_possibility_i
 
     # Add the value to the memoization dictionnary before returning it
@@ -304,15 +304,20 @@ for line in lines:
     nbr_damaged_springs = springs_infos[1].split(',')
     nbr_damaged_springs = [int(nbr) for nbr in nbr_damaged_springs]
 
+    # Create the new line by repeating the input repeat_number times, separated by '?'
+    # and by reapeating the number of damaged springs
     full_spring_line = '?'.join([spring_line for _ in range(repeat_number)])
     full_nbr_damaged_springs = [nbr for _ in range(repeat_number) for nbr in nbr_damaged_springs]
 
+    # Show the progress of the calculation
     print(current_line, "/", all_lines)
     print(full_spring_line, full_nbr_damaged_springs)
 
     t1 = time.perf_counter()
 
-    other_possibilities = multiply_line_possibilities([springs for springs in full_spring_line.split('.') if springs != ""], full_nbr_damaged_springs)
+    # Calculate the number of possibilities with the function memoized_nbr_possibilities which uses a recursive formula 
+    # and memoization to speed up the calculation
+    other_possibilities = memoized_nbr_possibilities([springs for springs in full_spring_line.split('.') if springs != ""], full_nbr_damaged_springs)
 
     t2 = time.perf_counter()
 
