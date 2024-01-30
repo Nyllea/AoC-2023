@@ -196,6 +196,7 @@ terrain = Terrain(nbr_columns, nbr_rows, square_pos, rounded_pos)
 # Show the initial state of the terrain
 # terrain.show()
 
+
 # Iterate over spin cycles and stop the loop when a cycle has been found in the positions of the rounded rocks
 
 # Number of spin cycles left after removing as many cycles as possible 
