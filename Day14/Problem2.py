@@ -1,5 +1,3 @@
-import time
-
 input_file_path = "Day14/input.txt"
 
 rounded_rock = 'O'
@@ -199,13 +197,10 @@ terrain = Terrain(nbr_columns, nbr_rows, square_pos, rounded_pos)
 # terrain.show()
 
 # Iterate over spin cycles and stop the loop when a cycle has been found in the positions of the rounded rocks
-show_every = 1000                       # Shows the current cycle adn estimated time every show_every cycles
-initial_t = time.perf_counter_ns()      # To time the execution
-prev_t = time.perf_counter_ns()
+
 # Number of spin cycles left after removing as many cycles as possible 
 # using the found cycle in the positions of the rounded rocks
 cycles_left = 0
-
 for cycle in range(nbr_cycles):
     cycle_len = terrain.spin_cycle(cycle)
 
@@ -215,17 +210,10 @@ for cycle in range(nbr_cycles):
         print("Cycle found of length", cycle_len, "at cycle", cycle, ":", cycles_left, "cycles left to reach the final state")
         break
 
-    if cycle % show_every == 0:
-        t = time.perf_counter_ns()
-        print("{:010.0f}".format(cycle), "/", nbr_cycles, ":", "{:.4f}".format(100 * cycle/nbr_cycles), "%", "in", "{:.3f}".format((t-prev_t)*10**(-9)), "s - estimated time left :", "{:.3f}".format((t-initial_t)*10**(-9)*(nbr_cycles-cycle)/(cycle+1)), "s")
-        prev_t = t
-
 # Do the remaining cycles to reach nbr_cycles 
 # after skipping as many spin cycles as possible using the cycle found in the positions of the rounded rocks
 for cycle in range(cycles_left):
     terrain.spin_cycle()
-
-print("Solution found in", (time.perf_counter_ns() - initial_t)*10**(-9), "s")
 
 # Show the final state of the terrain
 # print()
