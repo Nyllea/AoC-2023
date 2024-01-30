@@ -3,6 +3,7 @@ input_file_path = "Day15/input.txt"
 f = open(input_file_path, "r")
 lines = f.read().splitlines()
 
+# Uses the given algorithm to calculate the hash value of the given string
 def hash_algo(char_string):
     current_value = 0
     for character in char_string:
