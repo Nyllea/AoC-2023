@@ -22,6 +22,7 @@ class Directions:
         self.right = 1
         self.left = -1
 
+    # Returns the character corresponding to the given direction
     def get_char(self, direction):
         if direction == self.up:
             return char_up
@@ -209,10 +210,10 @@ terrain.show()
 
 # Light ray creation
 ray = LightRay(initial_ray_pos, initial_ray_dir)
+terrain.add_met_tile(ray.position, ray.direction)
 
 # Move the ray(s) across the terrain
 all_rays = [ray]
-terrain.add_met_tile(ray.position, ray.direction)
 while len(all_rays) != 0:
     all_rays = terrain.next_pos(all_rays)
 
